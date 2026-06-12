@@ -1,51 +1,36 @@
-class Tabelas  {
+const fs = require('fs');
+const path = require('path');
+
+class Tabelas {
     
     init(conexao) {
         this.conexao = conexao;
         this.criarTabelaAtendimento();
-        //this.inserirAtendimentos();
     }
-    criarTabelaAtendimento(){
-        const sql = `CREATE TABLE IF NOT EXISTS atendimentos(
-        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        DATA DATE,
-        servico VARCHAR(100),
-        STATUS ENUM("ativo","realizado", "cancelado") DEFAULT "ativo"
-        );`;
-        this.conexao.query(sql, (error)=>{
-            if (error) {
-                console.log('Eita, deu erro na hora de criar a tabela');
-                console.log(error.message);
-                return;   
+
+    criarTabelaAtendimento() {
+        // Define o caminho absoluto para o arquivo SQL na mesma pasta
+        const caminhoSql = path.join(__dirname, 'script_banco.sql');
+
+        // Lendo o arquivo externo
+        fs.readFile(caminhoSql, 'utf8', (err, sql) => {
+            if (err) {
+                console.log('Eita, deu erro na leitura do arquivo SQL externo!');
+                console.log(err.message);
+                return;
             }
-            console.log('Tabela criada com sucesso')
-        });
-    }
-    inserirAtendimentos(){
-        const sql  = `INSERT INTO atendimentos (DATA, servico, STATUS) VALUES
-            ('2026-06-11', 'Suporte Técnico Remoto', 'realizado'),
-            ('2026-06-11', 'Manutenção de Computador', 'ativo'),
-            ('2026-06-12', 'Consultoria de Banco de Dados', 'ativo'),
-            ('2026-06-12', 'Instalação de Rede Local', 'cancelado'),
-            ('2026-06-13', 'Configuração de Servidor VPS', 'ativo'),
-            ('2026-06-13', 'Desenvolvimento de API Node.js', 'ativo'),
-            ('2026-06-14', 'Treinamento de Sistema', 'realizado'),
-            ('2026-06-14', 'Backup e Recuperação de Dados', 'ativo'),
-            ('2026-06-15', 'Auditoria de Segurança', 'cancelado'),
-            ('2026-06-15', 'Otimização de Queries SQL', 'ativo');`;
-            
-            this.conexao.query(sql, (error)=>{
+
+            // Executa todo o conteúdo do arquivo de uma vez só
+            this.conexao.query(sql, (error) => {
                 if (error) {
-                console.log('Eita, deu erro na hora de inserir os dados da tabela');
-                console.log(error.message);
-                return;   
-            }
-            console.log('Inserido com sucesso')
+                    console.log('Eita, deu erro na hora de executar o script do arquivo');
+                    console.log(error.message);
+                    return;   
+                }
+                console.log('Banco de dados, tabelas e dados iniciais criados com sucesso!');
+            });
         });
-    
-    
-        }
-    
-};
+    }
+}
 
 module.exports = new Tabelas();

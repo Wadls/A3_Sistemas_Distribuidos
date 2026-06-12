@@ -11,7 +11,7 @@ router(app,express);
 
 
 //Início do programa + inserção de dados na tabela
-tabelas.init(conn);
+tabelas.init(conn.firstConn);
 
 
 app.listen(port),(error)=>{

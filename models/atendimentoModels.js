@@ -46,6 +46,32 @@ class AtendimentoModel {
             });
         });
     }
+    atualizar(antendimentoAtualizado,id){
+        const sql = "UPDATE atendimentos SET ? WHERE id = ?";
+        
+        return new Promise((resolve, reject) => {
+            conn.query(sql, [antendimentoAtualizado, id], (error, resposta) => {
+                if (error) {
+                    console.log("Deu erro na atualização do atendimento...");
+                    reject(error);
+                }
+                resolve(resposta);
+            });
+        });
+    }
+    deletar(id){
+        const sql = "DELETE FROM atendimentos WHERE id = ?";
+        
+        return new Promise((resolve, reject) => {
+            conn.query(sql, id, (error, resposta) => {
+                if (error) {
+                    console.log("Deu erro na hora de apagar o atendimento..");
+                    reject(error);
+                }
+                resolve(resposta);
+            });
+        });
+    }
 }
 
 module.exports = new AtendimentoModel();

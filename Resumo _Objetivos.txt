@@ -1,0 +1,37 @@
+- O Aplicativo simula o sistema de controle de vendas de uma farmácia.
+
+Gerenciar cliente:
+	o CRUD cliente.
+• Gerenciar vendedor:
+	o CRUD vendedor.
+• Gerenciar venda:
+	o CRUD estoque.
+	o Receber pedido de compra.
+	o Cancelar pedido de compra
+• Geração de relatórios estatísticos:
+	o Geração de relatório de produtos mais vendido.
+	o Geração de relatório de produto por cliente.
+	o Geração de relatório de consumo médio do cliente.
+	o Geração de relatório de produto com baixo estoque
+
+
+Objeto Cliente:
+	Atributos: Nome, Data de Nascimento, E-mail
+Objeto Vendedor
+    Atributos: Nome, Data de Nascimento, E-mail, farmácia
+
+Objeto venda{
+            Nome do Cliente :  String
+            Nome do Produto : String
+            Qtd : Numero
+            Status:"Aberto, Fechada, Cancelada"
+            Nome do vendedor
+}
+Objeto Estoque{
+    Nome produtos
+    Quantidade
+}
+
+Atividades Pendentes:
+Garantir a criação do banco de dados junto com o lançamento do API ✅
+Modificar os Models, para permitir que além de receber o nome do id, ele receba o nome da tabela

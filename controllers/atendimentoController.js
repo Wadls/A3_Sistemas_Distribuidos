@@ -6,11 +6,11 @@ class AtendimentoController {
     criar(novoAtendimento){
         return atendimentoModel.criar(novoAtendimento);
     }
-    autalizar(id){
-        return "Alterando atendimento número " + id + "...";
+    autalizar(atendimentoAtualizado,id){
+        return atendimentoModel.atualizar(atendimentoAtualizado,id);    
     }
     deletar(id){
-        return "Deletando atendimento número " + id + "...";
+        return atendimentoModel.deletar(id);    
     }
 }
 module.exports = new AtendimentoController();

@@ -1,10 +1,18 @@
 const mysql = require('mysql');
+const firstConn  = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password:"",
+    multipleStatements: true
+  
+});
 const conn  = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
     password:"",
-    database:'controle_atendimento'
+    database:'drogaria'
+  
 });
-
-module.exports = conn;
+module.exports = {firstConn,conn};

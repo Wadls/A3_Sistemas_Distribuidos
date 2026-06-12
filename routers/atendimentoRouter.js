@@ -30,17 +30,28 @@ router.post('/atendimento', (req,res)=>{
 
 router.put('/atendimento/:id', (req,res)=>{
     const {id} = req.params;
-    const resposta = atendimentoController.autalizar(id);
-    res.send(resposta);
+    const atendimentoAtualizado = req.body;
+    const atualizaAtendimento = atendimentoController.autalizar(atendimentoAtualizado,id);
+    atualizaAtendimento.then(resultAtendimentoAtualizado => res.status(200).json(resultAtendimentoAtualizado)).catch(error =>res.status(400).json(error.message));
     
 });
 
 
-router.delete('/atendimento/:id', (req,res)=>{
-    const {id} = req.params;
-    const resposta = atendimentoController.deletar(id);
-    res.send(resposta);
+router.delete('/atendimento/:id', (req, res) => {
+    const { id } = req.params;
+    
+    atendimentoController.deletar(id)
+        .then(resultado => {
+            // Se affectedRows for 0, significa que nenhum registro foi deletado
+            if (resultado && resultado.affectedRows === 0) {
+                return res.status(404).json({ mensagem: "Atendimento não encontrado." });
+            }
+            // Retorna uma mensagem de sucesso em vez do objeto do banco
+            return res.status(200).json({ mensagem: "Atendimento deletado com sucesso!", id });
+        })
+        .catch(erro => {
+            return res.status(500).json({ mensagem: "Erro ao deletar", erro });
+        }); 
 });
-
 
 module.exports = router;
