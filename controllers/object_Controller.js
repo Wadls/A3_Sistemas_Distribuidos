@@ -19,6 +19,13 @@ class AtendimentoController {
     deletar(tabela, id) {
         return ObjModel.deletar(tabela, id);
     }
+    criarPedidoVenda(dadosPedido) {
+        return ObjModel.criarPedidoVenda(dadosPedido);
+    }
+
+    cancelarPedidoVenda(idVenda) {
+        return ObjModel.cancelarPedidoVenda(idVenda);
+    }
 }
 
 module.exports = new AtendimentoController();
