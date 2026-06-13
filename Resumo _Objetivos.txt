@@ -1,11 +1,11 @@
 - O Aplicativo simula o sistema de controle de vendas de uma farmácia.
 
 Gerenciar cliente:
-	o CRUD cliente.
+	o CRUD cliente.✅
 • Gerenciar vendedor:
-	o CRUD vendedor.
+	o CRUD vendedor.✅
 • Gerenciar venda:
-	o CRUD estoque.
+	o CRUD estoque.✅
 	o Receber pedido de compra.
 	o Cancelar pedido de compra
 • Geração de relatórios estatísticos:
@@ -34,4 +34,5 @@ Objeto Estoque{
 
 Atividades Pendentes:
 Garantir a criação do banco de dados junto com o lançamento do API ✅
-Modificar os Models, para permitir que além de receber o nome do id, ele receba o nome da tabela
+Modificar os Models, para permitir que além de receber o nome do id, ele receba o nome da tabela✅
+Tornar as Funções do Controller, e do Router Genéricas, para permitir que as suas Funções Suirvam tanto pra Estoque, quanto Cliente, quanto Vendedor✅
