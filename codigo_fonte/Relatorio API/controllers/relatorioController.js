@@ -1,4 +1,4 @@
-const RelatorioModel = require('../models/RelatorioModel');
+const RelatorioModel = require('../models/relatorioModel');
 
 class RelatorioController {
 

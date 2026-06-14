@@ -1,0 +1,71 @@
+# Orquestra as 3 peças do sistema distribuído:
+#   db            -> banco de dados MySQL (compartilhado)
+#   principal-api -> API de vendas/CRUD (porta 3000)
+#   relatorio-api -> API de relatórios   (porta 3001)
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: drogaria-db
+    # Garante compatibilidade do driver 'mysql' (v2) com o MySQL 8
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"   # mantém root sem senha, como no código atual
+      MYSQL_DATABASE: drogaria            # cria a base vazia já no start
+    ports:
+      - "3306:3306"
+    volumes:
+      - dados_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - rede-drogaria
+
+  principal-api:
+    build:
+      context: "./Principal API"
+    container_name: drogaria-principal-api
+    environment:
+      DB_HOST: db          # nome do serviço do banco na rede do compose
+      DB_PORT: "3306"
+      DB_USER: root
+      DB_PASSWORD: ""
+      DB_NAME: drogaria
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy   # só sobe depois que o banco está pronto
+    networks:
+      - rede-drogaria
+
+  relatorio-api:
+    build:
+      context: "./Relatorio API"
+    container_name: drogaria-relatorio-api
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_USER: root
+      DB_PASSWORD: ""
+      DB_NAME: drogaria
+    ports:
+      - "3001:3001"
+    depends_on:
+      db:
+        condition: service_healthy
+      principal-api:
+        condition: service_started    # sobe depois que a principal cria/popula as tabelas
+    networks:
+      - rede-drogaria
+
+volumes:
+  dados_mysql:
+
+networks:
+  rede-drogaria:
+    driver: bridge

@@ -142,7 +142,7 @@ class ObjModel {
                         if (err) return conn.rollback(() => reject(err));
 
                         // 4. Cria a venda com o status 'Aberto' (Pedido Recebido)
-                        const novaVenda = { id_cliente, id_produto, qtd, status: 'Aberto', id_vendedor };
+                        const novaVenda = { id_cliente, id_produto, qtd, status: 'Confirmado', id_vendedor };
                         conn.query("INSERT INTO vendas SET ?", novaVenda, (err, resVenda) => {
                             if (err) return conn.rollback(() => reject(err));
 
